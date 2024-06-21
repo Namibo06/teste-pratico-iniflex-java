@@ -4,12 +4,12 @@ import org.teste.industria.funcionarios.Funcionario;
 import org.teste.industria.pessoas.Pessoa;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -17,42 +17,70 @@ import java.util.stream.Collectors;
 public class Main {
 
     public static void main(String[] args) {
-        List<Funcionario> funcionarios = new ArrayList<>();
+        List<Funcionario> funcionariosList = new ArrayList<>();
 
+        adicionar(funcionariosList,"Maria",LocalDate.of(2000,10,18),BigDecimal.valueOf(2009.44),"Operador");
+        adicionar(funcionariosList,"João",LocalDate.of(1990,05,12),BigDecimal.valueOf(2284.38),"Operador");
+        adicionar(funcionariosList,"Caio",LocalDate.of(1961,05,02),BigDecimal.valueOf(9836.14),"Coordenador");
+        adicionar(funcionariosList,"Miguel",LocalDate.of(1988,10,14),BigDecimal.valueOf(19119.88),"Diretor");
+        adicionar(funcionariosList,"Alice",LocalDate.of(1995,01,05),BigDecimal.valueOf(2234.68),"Recepcionista");
+        adicionar(funcionariosList,"Heltor",LocalDate.of(1999,11,19),BigDecimal.valueOf(1582.72),"Operador");
+        adicionar(funcionariosList,"Arthur",LocalDate.of(1993,03,31),BigDecimal.valueOf(4071.84),"Contador");
+        adicionar(funcionariosList,"Laura",LocalDate.of(1994,07,8),BigDecimal.valueOf(3017.45),"Gerente");
+        adicionar(funcionariosList,"Heloísa",LocalDate.of(2003,05,24),BigDecimal.valueOf(1606.85),"Eletricista");
+        adicionar(funcionariosList,"Helena",LocalDate.of(1996,9,02),BigDecimal.valueOf(2799.93),"Gerente");
 
-        adicionar(funcionarios,"Maria",LocalDate.of(2000,10,18),BigDecimal.valueOf(2009.44),"Operador");
-        adicionar(funcionarios,"João",LocalDate.of(1990,05,12),BigDecimal.valueOf(2284.38),"Operador");
-        adicionar(funcionarios,"Caio",LocalDate.of(1961,05,02),BigDecimal.valueOf(9836.14),"Coordenador");
-        adicionar(funcionarios,"Miguel",LocalDate.of(1988,10,14),BigDecimal.valueOf(19119.88),"Diretor");
-        adicionar(funcionarios,"Alice",LocalDate.of(1995,01,05),BigDecimal.valueOf(2234.68),"Recepcionista");
-        adicionar(funcionarios,"Heltor",LocalDate.of(1999,11,19),BigDecimal.valueOf(1582.72),"Operador");
-        adicionar(funcionarios,"Arthur",LocalDate.of(1993,03,31),BigDecimal.valueOf(4071.84),"Contador");
-        adicionar(funcionarios,"Laura",LocalDate.of(1994,07,8),BigDecimal.valueOf(3017.45),"Gerente");
-        adicionar(funcionarios,"Heloísa",LocalDate.of(2003,05,24),BigDecimal.valueOf(1606.85),"Eletricista");
-        adicionar(funcionarios,"Helena",LocalDate.of(1996,9,02),BigDecimal.valueOf(2799.93),"Gerente");
+        Map<String,List<Funcionario>> funcionariosPorFuncao = mapearPorFuncao(funcionariosList);
 
-        Map<String,List<Funcionario>> funcionariosPorFuncao = mapearPorFuncao(funcionarios);
+        removerFuncionario(funcionariosList,1);
 
-        removerFuncionario(funcionarios,1);
-       // imprimirTodos(funcionarios);
+        imprimirTodos(funcionariosList);
+        System.out.println("--------------------------------------------------------------------");
 
-        //imprimirTodosComAtualizacaoDeSalario(funcionarios);
+        imprimirTodosComAtualizacaoDeSalario(funcionariosList);
+        System.out.println("--------------------------------------------------------------------");
 
-        //funcionariosPorFuncao.forEach(Main::printFuncionarioFuncaoMap);
+        funcionariosPorFuncao.forEach(Main::printFuncionarioFuncaoMap);
+        System.out.println("--------------------------------------------------------------------");
 
-        //printFuncionarioNascidoMesDezEDoze(funcionarios);
+        printFuncionarioNascidoMesDezEDoze(funcionariosList);
+        System.out.println("--------------------------------------------------------------------");
 
-        //imprimirFuncionarioComMaiorIdade(funcionarios);
+        imprimirEmOrdemAlfabetica(funcionariosList);
+        System.out.println("--------------------------------------------------------------------");
 
-        //imprimirEmOrdemAlfabetica(funcionarios);
+        imprimirTotalSalarioFuncionario(funcionariosList);
+        System.out.println("--------------------------------------------------------------------");
 
+        imprimirQuantoSalariosMinimosCadaFuncionarioGanha(funcionariosList);
+        System.out.println("--------------------------------------------------------------------");
+
+        imprimirFuncionarioComMaiorIdade(funcionariosList);
+    }
+
+    private static void imprimirQuantoSalariosMinimosCadaFuncionarioGanha(List<Funcionario> funcionarioList) {
+        System.out.println("Nome     | Salário Mínimos   ");
+
+        //Tinha utilizado coo parametro no roundingMode,o número 2 para arredondar,porém o editor me deu essa outra opção
+        for (Funcionario funcionario:funcionarioList){
+            System.out.println(funcionario.getNome()+ "      "+ funcionario.getSalario().divide(new BigDecimal("1212.00"), RoundingMode.CEILING));
+        }
+    }
+
+    public static void imprimirTotalSalarioFuncionario(List<Funcionario> funcionarioList){
+        System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
+
+        for (Funcionario funcionario:funcionarioList){
+            System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "             "+ funcionario.getSalario().multiply(new BigDecimal("12"))+ "         "+ funcionario.getFuncao());
+        }
     }
 
     public static void imprimirEmOrdemAlfabetica(List<Funcionario> funcionarioList){
         funcionarioList.sort(Comparator.comparing(Pessoa::getNome));
+        System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
 
         for (Funcionario funcionario:funcionarioList){
-            System.out.println(funcionario.getNome());
+            System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "             "+ funcionario.getSalario()+ "         "+ funcionario.getFuncao());
         }
     }
 
@@ -75,11 +103,9 @@ public class Main {
                     String nome2 = nomes[1];
 
                      if(guardarChaves.get(nome1) > guardarChaves.get(nome2)){
-                        // System.out.println("Estou removendo:"+ nome1);
                          guardarChaves.remove(nome1);
                         funcionariosList.removeIf(f -> f.getNome().equals(nome1)); //predicate
                     }else{
-                         //System.out.println("Estou removendo:"+guardarChaves.get(nome2));
                         guardarChaves.remove(nome2);
                         funcionariosList.removeIf(f -> f.getNome().equals(nome2));
                     }
@@ -107,7 +133,7 @@ public class Main {
 
         for (Funcionario funcionario : funcionariosList){
             if(funcionario.getDataNascimento().getMonthValue() >= 10 && funcionario.getDataNascimento().getMonthValue() <= 12){
-                System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento() + "             "+ funcionario.getSalario()+ "         "+ funcionario.getFuncao());
+                System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "             "+ funcionario.getSalario()+ "         "+ funcionario.getFuncao());
             }
         }
     }
@@ -133,10 +159,9 @@ public class Main {
         symbols.setGroupingSeparator('.');
         DecimalFormat formatterCurrency = new DecimalFormat("#,##0.00",symbols);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
         for (Funcionario funcionario: funcionarios){
-            System.out.println(funcionario.getNome()+ "        "+funcionario.getDataNascimento().format(formatter) + "            " +  formatterCurrency.format(funcionario.getSalario()) + "        " + funcionario.getFuncao());
+            System.out.println(funcionario.getNome()+ "        "+funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "            " +  formatterCurrency.format(funcionario.getSalario()) + "        " + funcionario.getFuncao());
         }
     }
 
@@ -146,10 +171,9 @@ public class Main {
         symbols.setGroupingSeparator('.');
         DecimalFormat formatterCurrency = new DecimalFormat("#,##0.00",symbols);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
         for (Funcionario funcionario: funcionarios){
-            System.out.println(funcionario.getNome()+ "        "+funcionario.getDataNascimento().format(formatter) + "            " +  formatterCurrency.format(atualizarSalarios(funcionario.getSalario())) + "        " + funcionario.getFuncao());
+            System.out.println(funcionario.getNome()+ "        "+funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "            " +  formatterCurrency.format(atualizarSalarios(funcionario.getSalario())) + "        " + funcionario.getFuncao());
         }
     }
 
@@ -168,5 +192,10 @@ public class Main {
 
         return listaFuncionario.stream()
                 .collect(Collectors.groupingBy(Funcionario::getFuncao));
+    }
+
+    public static DateTimeFormatter formatarDataNascimento(LocalDate data){
+        //Tinha criado uma variável porém o editor achou redundante,então escolhi o modo dele que já retorna diretamente
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy");
     }
 }

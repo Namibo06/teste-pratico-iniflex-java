@@ -1,6 +1,7 @@
 package org.teste;
 
 import org.teste.industria.funcionarios.Funcionario;
+import org.teste.industria.pessoas.Pessoa;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -8,6 +9,7 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -32,12 +34,88 @@ public class Main {
         Map<String,List<Funcionario>> funcionariosPorFuncao = mapearPorFuncao(funcionarios);
 
         removerFuncionario(funcionarios,1);
-        imprimirTodos(funcionarios);
+       // imprimirTodos(funcionarios);
 
-        imprimirTodosComAtualizacaoDeSalario(funcionarios);
+        //imprimirTodosComAtualizacaoDeSalario(funcionarios);
 
-        System.out.println(funcionariosPorFuncao);
+        //funcionariosPorFuncao.forEach(Main::printFuncionarioFuncaoMap);
 
+        //printFuncionarioNascidoMesDezEDoze(funcionarios);
+
+        //imprimirFuncionarioComMaiorIdade(funcionarios);
+
+        //imprimirEmOrdemAlfabetica(funcionarios);
+
+    }
+
+    public static void imprimirEmOrdemAlfabetica(List<Funcionario> funcionarioList){
+        funcionarioList.sort(Comparator.comparing(Pessoa::getNome));
+
+        for (Funcionario funcionario:funcionarioList){
+            System.out.println(funcionario.getNome());
+        }
+    }
+
+    public static void imprimirFuncionarioComMaiorIdade(List<Funcionario> funcionariosList){
+        while (funcionariosList.size() > 1) {
+            Map<String,Integer> guardarChaves = new HashMap<>();
+            for (int i = 0; i < funcionariosList.size(); i++) {
+                Funcionario funcionario = funcionariosList.get(i);
+                Integer anoFuncionario = funcionario.getDataNascimento().getYear();
+                String nomeFuncionario = funcionario.getNome();
+
+                guardarChaves.put(nomeFuncionario,anoFuncionario);
+                boolean aindaResta=false;
+                if(funcionariosList.size() - 1 == 1 && !aindaResta){
+                    aindaResta=true;
+                }
+                if(guardarChaves.size() == 2){
+                    String[] nomes = guardarChaves.keySet().toArray(new String[0]);
+                    String nome1 = nomes[0];
+                    String nome2 = nomes[1];
+
+                     if(guardarChaves.get(nome1) > guardarChaves.get(nome2)){
+                        // System.out.println("Estou removendo:"+ nome1);
+                         guardarChaves.remove(nome1);
+                        funcionariosList.removeIf(f -> f.getNome().equals(nome1)); //predicate
+                    }else{
+                         //System.out.println("Estou removendo:"+guardarChaves.get(nome2));
+                        guardarChaves.remove(nome2);
+                        funcionariosList.removeIf(f -> f.getNome().equals(nome2));
+                    }
+                }
+
+                if(guardarChaves.size()==1 && aindaResta){
+                    //System.out.println(guardarChaves);
+                    funcionariosList.remove(1);
+                    break;
+                }
+            }
+        }
+
+        if(funcionariosList.size() == 1){
+            Funcionario funcionario= funcionariosList.get(0);
+            int idade = LocalDate.now().getYear() - funcionario.getDataNascimento().getYear();
+            System.out.println("Nome: "+ funcionario.getNome() + " | Idade: "+idade);
+        }else{
+            System.out.println("Ocorreu algo de errado");
+        }
+    }
+
+    public static void printFuncionarioNascidoMesDezEDoze(List<Funcionario> funcionariosList){
+        System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
+
+        for (Funcionario funcionario : funcionariosList){
+            if(funcionario.getDataNascimento().getMonthValue() >= 10 && funcionario.getDataNascimento().getMonthValue() <= 12){
+                System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento() + "             "+ funcionario.getSalario()+ "         "+ funcionario.getFuncao());
+            }
+        }
+    }
+
+    public static void printFuncionarioFuncaoMap(String funcao,List<Funcionario> funcionario){
+        for (Funcionario funcion : funcionario){
+            System.out.println("Função: "+ funcao+" - Nome: "+ funcion.getNome());
+        }
     }
 
     public static void adicionar(List<Funcionario> funcionarios,String nome,LocalDate dataNascimento,BigDecimal salario,String funcao){

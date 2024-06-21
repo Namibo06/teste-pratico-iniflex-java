@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-
     public static void main(String[] args) {
         List<Funcionario> funcionariosLista = new ArrayList<>();
 
@@ -61,7 +60,6 @@ public class Main {
     private static void imprimirQuantoSalariosMinimosCadaFuncionarioGanha(List<Funcionario> funcionariosLista) {
         System.out.println("Nome     | Salário Mínimos   ");
 
-        //Tinha utilizado como parametro no roundingMode,o número 2 para arredondar,porém o editor me deu essa outra opção
         for (Funcionario funcionario:funcionariosLista){
             System.out.println(funcionario.getNome()+ "      "+ funcionario.getSalario().divide(new BigDecimal("1212.00"), RoundingMode.CEILING));
         }
@@ -104,7 +102,7 @@ public class Main {
 
                      if(guardarChaves.get(nome1) > guardarChaves.get(nome2)){
                          guardarChaves.remove(nome1);
-                         funcionariosLista.removeIf(f -> f.getNome().equals(nome1)); //predicate
+                         funcionariosLista.removeIf(f -> f.getNome().equals(nome1));
                     }else{
                         guardarChaves.remove(nome2);
                          funcionariosLista.removeIf(f -> f.getNome().equals(nome2));
@@ -191,7 +189,6 @@ public class Main {
     }
 
     public static DateTimeFormatter formatarDataNascimento(LocalDate data){
-        //Tinha criado uma variável porém o editor achou redundante,então escolhi o modo dele que já retorna diretamente
         return DateTimeFormatter.ofPattern("dd/MM/yyyy");
     }
 }

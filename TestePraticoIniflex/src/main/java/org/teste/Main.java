@@ -103,7 +103,7 @@ public class Main {
 
                      if(guardarChaves.get(nome1) > guardarChaves.get(nome2)){
                          guardarChaves.remove(nome1);
-                         funcionariosLista.removeIf(f -> f.getNome().equals(nome1)); //predicate
+                         funcionariosLista.removeIf(f -> f.getNome().equals(nome1));
                     }else{
                         guardarChaves.remove(nome2);
                          funcionariosLista.removeIf(f -> f.getNome().equals(nome2));

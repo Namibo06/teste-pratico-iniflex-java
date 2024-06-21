@@ -17,83 +17,83 @@ import java.util.stream.Collectors;
 public class Main {
 
     public static void main(String[] args) {
-        List<Funcionario> funcionariosList = new ArrayList<>();
+        List<Funcionario> funcionariosLista = new ArrayList<>();
 
-        adicionarFuncionario(funcionariosList,"Maria",LocalDate.of(2000,10,18),BigDecimal.valueOf(2009.44),"Operador");
-        adicionarFuncionario(funcionariosList,"João",LocalDate.of(1990,05,12),BigDecimal.valueOf(2284.38),"Operador");
-        adicionarFuncionario(funcionariosList,"Caio",LocalDate.of(1961,05,02),BigDecimal.valueOf(9836.14),"Coordenador");
-        adicionarFuncionario(funcionariosList,"Miguel",LocalDate.of(1988,10,14),BigDecimal.valueOf(19119.88),"Diretor");
-        adicionarFuncionario(funcionariosList,"Alice",LocalDate.of(1995,01,05),BigDecimal.valueOf(2234.68),"Recepcionista");
-        adicionarFuncionario(funcionariosList,"Heltor",LocalDate.of(1999,11,19),BigDecimal.valueOf(1582.72),"Operador");
-        adicionarFuncionario(funcionariosList,"Arthur",LocalDate.of(1993,03,31),BigDecimal.valueOf(4071.84),"Contador");
-        adicionarFuncionario(funcionariosList,"Laura",LocalDate.of(1994,07,8),BigDecimal.valueOf(3017.45),"Gerente");
-        adicionarFuncionario(funcionariosList,"Heloísa",LocalDate.of(2003,05,24),BigDecimal.valueOf(1606.85),"Eletricista");
-        adicionarFuncionario(funcionariosList,"Helena",LocalDate.of(1996,9,02),BigDecimal.valueOf(2799.93),"Gerente");
+        adicionarFuncionario(funcionariosLista,"Maria",LocalDate.of(2000,10,18),BigDecimal.valueOf(2009.44),"Operador");
+        adicionarFuncionario(funcionariosLista,"João",LocalDate.of(1990,05,12),BigDecimal.valueOf(2284.38),"Operador");
+        adicionarFuncionario(funcionariosLista,"Caio",LocalDate.of(1961,05,02),BigDecimal.valueOf(9836.14),"Coordenador");
+        adicionarFuncionario(funcionariosLista,"Miguel",LocalDate.of(1988,10,14),BigDecimal.valueOf(19119.88),"Diretor");
+        adicionarFuncionario(funcionariosLista,"Alice",LocalDate.of(1995,01,05),BigDecimal.valueOf(2234.68),"Recepcionista");
+        adicionarFuncionario(funcionariosLista,"Heltor",LocalDate.of(1999,11,19),BigDecimal.valueOf(1582.72),"Operador");
+        adicionarFuncionario(funcionariosLista,"Arthur",LocalDate.of(1993,03,31),BigDecimal.valueOf(4071.84),"Contador");
+        adicionarFuncionario(funcionariosLista,"Laura",LocalDate.of(1994,07,8),BigDecimal.valueOf(3017.45),"Gerente");
+        adicionarFuncionario(funcionariosLista,"Heloísa",LocalDate.of(2003,05,24),BigDecimal.valueOf(1606.85),"Eletricista");
+        adicionarFuncionario(funcionariosLista,"Helena",LocalDate.of(1996,9,02),BigDecimal.valueOf(2799.93),"Gerente");
 
-        Map<String,List<Funcionario>> funcionariosPorFuncao = mapearPorFuncao(funcionariosList);
+        Map<String,List<Funcionario>> funcionariosPorFuncao = mapearPorFuncao(funcionariosLista);
 
-        removerFuncionarioPorIndice(funcionariosList,1);
+        removerFuncionarioPorIndice(funcionariosLista,1);
 
-        imprimirTodosFuncionarios(funcionariosList);
+        imprimirTodosFuncionarios(funcionariosLista);
         System.out.println("--------------------------------------------------------------------");
 
-        imprimirTodosComAtualizacaoDeSalario(funcionariosList);
+        imprimirTodosComAtualizacaoDeSalario(funcionariosLista);
         System.out.println("--------------------------------------------------------------------");
 
         funcionariosPorFuncao.forEach(Main::imprimirFuncionarioFuncaoMap);
         System.out.println("--------------------------------------------------------------------");
 
-        imprimirFuncionarioQueNasceuEntreMesDezEDoze(funcionariosList);
+        imprimirFuncionarioQueNasceuEntreMesDezEDoze(funcionariosLista);
         System.out.println("--------------------------------------------------------------------");
 
-        imprimirEmOrdemAlfabetica(funcionariosList);
+        imprimirEmOrdemAlfabetica(funcionariosLista);
         System.out.println("--------------------------------------------------------------------");
 
-        imprimirTotalSalarioFuncionario(funcionariosList);
+        imprimirTotalSalarioFuncionario(funcionariosLista);
         System.out.println("--------------------------------------------------------------------");
 
-        imprimirQuantoSalariosMinimosCadaFuncionarioGanha(funcionariosList);
+        imprimirQuantoSalariosMinimosCadaFuncionarioGanha(funcionariosLista);
         System.out.println("--------------------------------------------------------------------");
 
-        imprimirFuncionarioComMaiorIdade(funcionariosList);
+        imprimirFuncionarioComMaiorIdade(funcionariosLista);
     }
 
-    private static void imprimirQuantoSalariosMinimosCadaFuncionarioGanha(List<Funcionario> funcionarioList) {
+    private static void imprimirQuantoSalariosMinimosCadaFuncionarioGanha(List<Funcionario> funcionariosLista) {
         System.out.println("Nome     | Salário Mínimos   ");
 
-        for (Funcionario funcionario:funcionarioList){
+        for (Funcionario funcionario:funcionariosLista){
             System.out.println(funcionario.getNome()+ "      "+ funcionario.getSalario().divide(new BigDecimal("1212.00"), RoundingMode.CEILING));
         }
     }
 
-    public static void imprimirTotalSalarioFuncionario(List<Funcionario> funcionarioList){
+    public static void imprimirTotalSalarioFuncionario(List<Funcionario> funcionariosLista){
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
 
-        for (Funcionario funcionario:funcionarioList){
+        for (Funcionario funcionario:funcionariosLista){
             System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "             "+ formatarSalario(funcionario.getSalario().multiply(new BigDecimal("12")))+ "         "+ funcionario.getFuncao());
         }
     }
 
-    public static void imprimirEmOrdemAlfabetica(List<Funcionario> funcionarioList){
-        funcionarioList.sort(Comparator.comparing(Pessoa::getNome));
+    public static void imprimirEmOrdemAlfabetica(List<Funcionario> funcionariosLista){
+        funcionariosLista.sort(Comparator.comparing(Pessoa::getNome));
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
 
-        for (Funcionario funcionario:funcionarioList){
+        for (Funcionario funcionario:funcionariosLista){
             System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "             "+ formatarSalario(funcionario.getSalario())+ "         "+ funcionario.getFuncao());
         }
     }
 
-    public static void imprimirFuncionarioComMaiorIdade(List<Funcionario> funcionariosList){
-        while (funcionariosList.size() > 1) {
+    public static void imprimirFuncionarioComMaiorIdade(List<Funcionario> funcionariosLista){
+        while (funcionariosLista.size() > 1) {
             Map<String,Integer> guardarChaves = new HashMap<>();
-            for (int i = 0; i < funcionariosList.size(); i++) {
-                Funcionario funcionario = funcionariosList.get(i);
+            for (int i = 0; i < funcionariosLista.size(); i++) {
+                Funcionario funcionario = funcionariosLista.get(i);
                 Integer anoFuncionario = funcionario.getDataNascimento().getYear();
                 String nomeFuncionario = funcionario.getNome();
 
                 guardarChaves.put(nomeFuncionario,anoFuncionario);
                 boolean aindaResta=false;
-                if(funcionariosList.size() - 1 == 1 && !aindaResta){
+                if(funcionariosLista.size() - 1 == 1 && !aindaResta){
                     aindaResta=true;
                 }
                 if(guardarChaves.size() == 2){
@@ -103,22 +103,22 @@ public class Main {
 
                      if(guardarChaves.get(nome1) > guardarChaves.get(nome2)){
                          guardarChaves.remove(nome1);
-                        funcionariosList.removeIf(f -> f.getNome().equals(nome1));
+                         funcionariosLista.removeIf(f -> f.getNome().equals(nome1)); //predicate
                     }else{
                         guardarChaves.remove(nome2);
-                        funcionariosList.removeIf(f -> f.getNome().equals(nome2));
+                         funcionariosLista.removeIf(f -> f.getNome().equals(nome2));
                     }
                 }
 
                 if(guardarChaves.size()==1 && aindaResta){
-                    funcionariosList.remove(1);
+                    funcionariosLista.remove(1);
                     break;
                 }
             }
         }
 
-        if(funcionariosList.size() == 1){
-            Funcionario funcionario= funcionariosList.get(0);
+        if(funcionariosLista.size() == 1){
+            Funcionario funcionario= funcionariosLista.get(0);
             int idade = LocalDate.now().getYear() - funcionario.getDataNascimento().getYear();
             System.out.println("Nome: "+ funcionario.getNome() + " | Idade: "+idade);
         }else{
@@ -126,48 +126,48 @@ public class Main {
         }
     }
 
-    public static void imprimirFuncionarioQueNasceuEntreMesDezEDoze(List<Funcionario> funcionariosList){
+    public static void imprimirFuncionarioQueNasceuEntreMesDezEDoze(List<Funcionario> funcionariosLista){
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
 
-        for (Funcionario funcionario : funcionariosList){
+        for (Funcionario funcionario : funcionariosLista){
             if(funcionario.getDataNascimento().getMonthValue() >= 10 && funcionario.getDataNascimento().getMonthValue() <= 12){
                 System.out.println(funcionario.getNome()+ "      "+ funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "             "+ formatarSalario(funcionario.getSalario())+ "         "+ funcionario.getFuncao());
             }
         }
     }
 
-    public static void imprimirFuncionarioFuncaoMap(String funcao,List<Funcionario> funcionario){
-        for (Funcionario funcion : funcionario){
-            System.out.println("Função: "+ funcao+" - Nome: "+ funcion.getNome());
+    public static void imprimirFuncionarioFuncaoMap(String funcao,List<Funcionario> funcionariosLista){
+        for (Funcionario funcionario : funcionariosLista){
+            System.out.println("Função: "+ funcao+" - Nome: "+ funcionario.getNome());
         }
     }
 
-    public static void adicionarFuncionario(List<Funcionario> funcionarios,String nome,LocalDate dataNascimento,BigDecimal salario,String funcao){
+    public static void adicionarFuncionario(List<Funcionario> funcionariosLista,String nome,LocalDate dataNascimento,BigDecimal salario,String funcao){
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(nome);
         funcionario.setDataNascimento(dataNascimento);
         funcionario.setSalario(salario);
         funcionario.setFuncao(funcao);
-        funcionarios.add(funcionario);
+        funcionariosLista.add(funcionario);
     }
 
-    public static void imprimirTodosFuncionarios(List<Funcionario> funcionarios){
+    public static void imprimirTodosFuncionarios(List<Funcionario> funcionariosLista){
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
-        for (Funcionario funcionario: funcionarios){
+        for (Funcionario funcionario: funcionariosLista){
             System.out.println(funcionario.getNome()+ "        "+funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "            " +  formatarSalario(funcionario.getSalario()) + "        " + funcionario.getFuncao());
         }
     }
 
-    public static void imprimirTodosComAtualizacaoDeSalario(List<Funcionario> funcionarios){
+    public static void imprimirTodosComAtualizacaoDeSalario(List<Funcionario> funcionariosLista){
 
         System.out.println("Nome    | Data de Nascimento     | Salário     | Função    ");
-        for (Funcionario funcionario: funcionarios){
+        for (Funcionario funcionario: funcionariosLista){
             System.out.println(funcionario.getNome()+ "        "+funcionario.getDataNascimento().format(formatarDataNascimento(funcionario.getDataNascimento())) + "            " +  formatarSalario(atualizarSalariosAcrescimoDezPorcento(funcionario.getSalario())) + "        " + funcionario.getFuncao());
         }
     }
 
-    public static void removerFuncionarioPorIndice(List<Funcionario> funcionarios,int posicao){
-        funcionarios.remove(posicao);
+    public static void removerFuncionarioPorIndice(List<Funcionario> funcionariosLista,int posicao){
+        funcionariosLista.remove(posicao);
     }
 
     public static BigDecimal atualizarSalariosAcrescimoDezPorcento(BigDecimal salario){
